@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    image: docker-web
+    container_name: web
+    ports:
+      - "5000:5000"
+    networks:
+      - devops_network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-html:/usr/share/nginx/html:ro
+    networks:
+      - devops_network
+
+networks:
+  devops_network:
+    name: devops_network
+    driver: bridge
