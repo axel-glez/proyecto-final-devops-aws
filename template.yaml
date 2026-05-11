@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Infraestructura DevOps en AWS Academy Learner Lab con EC2 y S3
+
+Resources:
+  DevOpsSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group para instancia EC2 DevOps
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: devops-cf-sg
+
+  DevOpsEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0a59ec92177ec3fad
+      InstanceType: t2.micro
+      IamInstanceProfile: LabInstanceProfile
+      SecurityGroupIds:
+        - !Ref DevOpsSecurityGroup
+      Tags:
+        - Key: Name
+          Value: devops-cf-ec2
+
+  DevOpsS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub devops-cf-proyecto-${AWS::AccountId}-${AWS::Region}
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Name
+          Value: devops-cf-bucket
+
+Outputs:
+  EC2InstanceId:
+    Description: ID de la instancia EC2 creada por CloudFormation
+    Value: !Ref DevOpsEC2Instance
+
+  S3BucketName:
+    Description: Nombre del bucket S3 creado por CloudFormation
+    Value: !Ref DevOpsS3Bucket
