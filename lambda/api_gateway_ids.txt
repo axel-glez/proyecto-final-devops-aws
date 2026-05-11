@@ -1,0 +1,7 @@
+REGION=us-east-1
+ACCOUNT_ID=378281827541
+LAMBDA_FUNCTION=microservicio-devops
+API_ID=3pts93qit1
+ROOT_ID=iw71qemv32
+RESOURCE_ID=j3ul3h
+API_URL=https://3pts93qit1.execute-api.us-east-1.amazonaws.com/prod/microservicio
